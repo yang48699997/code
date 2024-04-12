@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<!-- 表单标签 -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- input系列标签：
+        text:单行文本
+        password:密码框
+        radio:单选框
+        checkbox:多选框
+        file:文件选择
+        submit:提交按钮
+        reset:重置按钮
+        button:普通按钮 -->
+    <form action="">
+        <!-- placeholder:占位符,提示用户输入内容的文本 -->
+        <input type="text" placeholder="输入文本"><br>
+        <input type="password" placeholder="输入密码"><br>
+        <!-- 
+            name:分组，有相同name属性值的单选框为一组 
+            checked:默认选中
+        -->
+        <input type="radio" name="gender" checked><br>
+        <input type="radio" name="gender" checked><br>
+        <input type="radio"><br>
+        <input type="radio" name="gender"><br>
+        <input type="checkbox" checked><br>
+        <!--multiple:多文件选择  -->
+        <input type="file" ><br>
+        <input type="file" multiple><br>
+        <!-- 需配合form标签 -->
+        <input type="button"  value="按钮"><br>
+        <input type="submit" value="注册"><br>
+        <input type="reset" value="提交"><br>
+    </form>
+    
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<!-- 合并单元格 -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 
+        跨行合并（垂直合并）、跨列合并（水平合并）：
+    步骤：
+        1.明确合并哪几个单元格
+        2.通过左上原则，确定保留谁、删除谁
+        3.给保留的单元格设置：跨行合并（rowspan）或跨列（colspan）
+        属性值：合并单元格的个数
+        同一个结构标签的单元格才能合并，不能跨标签（不能跨thead,tbody,tfoot） 
+    -->
+    <table  border="1" >
+        <caption>表格</caption>
+        <thead>
+            <tr>
+                <th>动物</th>
+                <th colspan="2" rowspan="2">植物</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>猪</td>
+                <td rowspan="3">草</td>
+                <td>傻逼</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td height="20"></td>
+                <!-- <td></td> -->
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td></td>
+                <td height="20"></td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+</body>
+</html>

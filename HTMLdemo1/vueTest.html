@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model="message">
+        {{message}}
+    </div>
+    <div id="bpp">
+        <div v-for="(addr,index) in addrs">{{addr}}{{index}}</div>
+    </div>
+    
+
+</body>
+<script>
+    new Vue({
+        el:"#app",
+        data: {
+            message: "Hello Vue!"
+
+        }
+    })
+    new Vue({
+        el:"#bpp",
+        data: {
+             message: "Hello Vue!",
+            addrs:["大一","大二","大三","大四"]
+
+        }
+    })
+</script>
+</html>

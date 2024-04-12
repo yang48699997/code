@@ -1,0 +1,29 @@
+.nav a {
+    display: inline-block;
+    width: 120px;
+    height: 58px;
+    background-color: #909;
+    text-align: center;
+    line-height: 58px;
+    color: #fff;
+    text-decoration: none;
+}
+.nav a:hover {
+    background-color: aqua;
+}
+table {
+    font-family: 'Microsoft Yahei';
+    font-size: 16px;
+    font-weight: 700;
+    text-align: center;
+    line-height: 38px;
+    border: solid;
+    border-collapse: collapse;
+}
+td{
+    border: 1px solid black;
+    
+}
+tr {
+    padding: 0;
+}

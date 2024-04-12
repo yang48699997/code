@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<!-- 表格标签 -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!--
+        表格： 
+            table:表格整体,可用于包裹多个tr
+            tr:表格每行，可用于包裹td
+            td:表格单元格，可用于包裹内容
+        属性值：(一般用CSS设置)
+            border:边框宽度
+            width:表格宽度
+            height:表格高度
+     -->
+     <table border="1">
+        <tr>
+            <td>动物</td>
+            <td>植物</td>
+        </tr>
+        <tr>
+            <td>猪</td>
+            <td>草</td>
+            <td>傻逼</td>
+        </tr>
+     </table>
+     <!-- 
+        caption:表格整体大标题，默认在表格整体顶部居中位置显示（写在table内）
+        th:表头单元格，默认内部文字加粗并居中显示（写在tr内部用于替换td标签）
+      -->
+      <table  border="1" >
+        <caption>表格</caption>
+        <tr>
+            <th>动物</th>
+            <th>植物</th>
+        </tr>
+        <tr>
+            <td>猪</td>
+            <td>草</td>
+            <td>傻逼</td>
+        </tr>
+     </table>
+</body>
+</html>

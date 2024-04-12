@@ -1,0 +1,40 @@
+#!/bin/bash
+name=1
+word=1
+while ( ! [ $name -ne 1 ])
+do
+read -p  "请输入用户名（只能包含英文和数字）:" username
+if ([ ${#username} -lt 6 ])
+        then
+        echo "长度过短"
+else
+         if [[ $username =~ ^[0-9[:alpha:]]+$ ]]
+        then name=0;
+        else echo "格式不符合规则"
+          fi
+fi
+done
+while ( ! [ $word -ne 1 ])
+do
+read -p "请输入密码（必须包括英文与数字）:" password
+if  [ ${#password} -lt 8 ] || [ ${#password} -gt 12 ]
+        then
+        echo "长度不符合规则（需为8~12位）"
+else
+ if [[ $password =~ ^[0-9[:alpha:].]+$ ]]
+        then
+                if ! [[ $password =~ [0-9] ]]
+                then
+                        echo "缺少数字"
+                else
+                        if ! [[ $password =~ [:alpha:] ]]
+                        then echo "缺少字母"
+                        else
+                                word=0
+                        fi
+                fi
+        fi
+fi
+done
+echo $username
+echo $password

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue案例</title>
+</head>
+<script src="js/vue.js"></script>
+<body>
+    <table border="1" cellspacing="0" width="60%" id="app">
+         <tr>
+            <th>编号</th>
+            <th>姓名</th>
+            <th>年龄</th>
+            <th>性别</th>
+            <th>成绩</th>
+            <th>等级</th>
+         </tr>
+         <tr  align="center" v-for="(user,index) in users">
+            <td>{{index+1}}</td>
+            <td>{{user.name}}</td>
+            <td>{{user.age}}</td>
+            <td>
+                <span v-if="user.gender==1">男</span>
+                <span v-else="user.gender==1">女</span>
+            </td>
+            <td>{{user.score}}</td>
+            <td>
+                <span v-if="user.score>=85">优秀</span>    
+                <span v-else-if="user.score>=60">及格</span>    
+                <span v-else style="color: #f00;">不及格</span>    
+            </td>
+         </tr>
+    </table>
+    
+</body>
+<script>
+    new Vue({
+        el:"#app",
+        data:{
+            users:[
+                {
+                    name:"Tom",
+                    age:20,
+                    gender:1,
+                    score:78
+                },{
+                    name:"Rose",
+                    age:18,
+                    gender:2,
+                    score:86
+                },{
+                    name:"Jerry",
+                    age:26,
+                    gender:1,
+                    score:90
+                },{
+                    name:"Tom",
+                    age:30,
+                    gender:1,
+                    score:52
+                },
+            ]
+        }
+    })              
+</script>
+</html>
