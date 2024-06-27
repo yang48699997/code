@@ -31,6 +31,7 @@ void update(int l, int r, int d, int p = 1, int cl = 1, int cr = n){
     if (cl >= l && cr <= r) {
         tree[p] += d * (cr - cl + 1);
         mark[p] += d;
+        return;
     }
     push_down(p, cr - cl + 1);
     int mid = (cl + cr) >> 1;

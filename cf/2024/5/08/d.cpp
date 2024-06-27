@@ -15,15 +15,29 @@ void solve(){
     for(int i=0;i<n;i++)cin>>a[i];
     vector<ll> pre(n+1);
     for(int i=1;i<=n;i++)pre[i]=pre[i-1]+a[i-1];
-    ll ans=0;
-    vector<vector<ll>> dp(2*n+1,vector<ll> (n+1));
-    for(int i=1;i<=n;i++)dp[0][i]=a[i-1];
-    for(int i=1;i<=n*2;i++){
-        for(int j=1;j<=n;j++){
-            dp[i][j]=max(dp[i][j],dp[i-1][j-1]);
-            if(j+1<=n)dp[i][j]=max(dp[i][j],dp[i-1][j+1]);
+    vector<vector<ll>> dp(2*n+1,vector<ll> (n));
+    for(int i=0;i<=n*2;i++){
+        for(int j=0;j<n;j++){
+            int l=max(0,j-i);
+            int r=min(n,j+i+1);
+            dp[i][j]=max(dp[i][j],pre[r]-pre[j]);
+            dp[i][j]=max(dp[i][j],pre[j+1]-pre[l]);
         }
     }
+    for(int i=1;i<=2*n;i++){
+        for(int j=0;j<n;j++){
+            if(j+1<n)dp[i][j]=max(dp[i][j],dp[i-1][j+1]);
+            if(j-1>=0)dp[i][j]=max(dp[i][j],dp[i-1][j-1]);
+        }
+    }
+    ll ans=0;
+    for(int i=0;i<n;i++){
+        ll cur=0;
+        for(int j=1;j<=2*n;j++)cur^=dp[j][i]*j;
+        cur+=i+1;
+        ans^=cur;
+    }
+    cout<<ans;
 }   
 
 int main(){
