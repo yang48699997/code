@@ -1,57 +1,73 @@
 #include <bits/stdc++.h>
 using namespace std;
-using ll = long long;
-const int N = 1e5 + 5;
-ll tree[N << 2], mark[N << 2], n, m, A[N];
 
-void push_down(int p, int len){
-    if (len <= 1) return;
-    tree[p << 1] += mark[p] * (len - len / 2);
-    mark[p << 1] += mark[p];
-    tree[p << 1 | 1] += mark[p] * (len / 2);
-    mark[p << 1 | 1] += mark[p];
-    mark[p] = 0;
-}
-void build(int p = 1, int cl = 1, int cr = n){
-    if (cl == cr) return void(tree[p] = A[cl]);
-    int mid = (cl + cr) >> 1;
-    build(p << 1, cl, mid);
-    build(p << 1 | 1, mid + 1, cr);
-    tree[p] = tree[p << 1] + tree[p << 1 | 1];
-}
-ll query(int l, int r, int p = 1, int cl = 1, int cr = n){
-    if (cl >= l && cr <= r) return tree[p];
-    push_down(p, cr - cl + 1);
-    ll mid = (cl + cr) >> 1, ans = 0;
-    if (mid >= l) ans += query(l, r, p << 1, cl, mid);
-    if (mid < r) ans += query(l, r, p << 1 | 1, mid + 1, cr);
-    return ans;
-}
-void update(int l, int r, int d, int p = 1, int cl = 1, int cr = n){
-    if (cl >= l && cr <= r) {
-        tree[p] += d * (cr - cl + 1);
-        mark[p] += d;
+using ll = long long;
+
+template<class T>
+struct SegmentTree {
+    static int n;
+    vector<T> a, tr, mark;
+    SegmentTree(int x) {
+        n = x;
+        a.resize(x + 1);
+        tr.resize((x + 1) << 2);
+        mark.resize((x + 1) << 2);
+    }
+
+    void set(int i, T x) {
+        a[i] = x;
+    }
+    void build(int p = 1, int l = 1, int r = n) {
+        if (l == r) {
+            tr[p] = a[l];
+            return;
+        }
+        int mid = (l + r) / 2;
+        build(p << 1, l, mid);
+        build(p << 1 | 1, mid + 1, r);
+        tr[p] = tr[p << 1] + tr[p << 1 | 1];
+    }
+    void push_down(int p, int l, int r) {
+        int len = r - l + 1;
+        tr[p << 1] += (len + 1) / 2 * mark[p];
+        tr[p << 1 | 1] += len / 2 * mark[p];
+        mark[p << 1] += mark[p];
+        mark[p << 1 | 1] += mark[p];
+        mark[p] = 0;
         return;
     }
-    push_down(p, cr - cl + 1);
-    int mid = (cl + cr) >> 1;
-    if (mid >= l) update(l, r, d, p << 1, cl, mid);
-    if (mid < r) update(l, r, d, p << 1 | 1, mid + 1, cr);
-    tree[p] = tree[p << 1] + tree[p << 1 | 1];
-}
-int main(){
-    ios::sync_with_stdio(false);
-    cin.tie(0);
-    cin >> n >> m;
-    for (int i = 1; i <= n; ++i)cin >> A[i];
-    build();
-    while (m--){
-        int o, l, r, d;
-        cin >> o >> l >> r;
-        if (o == 1)
-            cin >> d, update(l, r, d);
-        else
-            cout << query(l, r) << '\n';
+    void update(int l, int r, T x, int p = 1, int cl = 1, int cr = n) {
+        if (cl >= l && cr <= r) {
+            int len = cr - cl + 1;
+            tr[p] += len * x;
+            mark[p] += x;
+            return;
+        }
+        if (mark[p]) push_down(p, cl, cr);
+        int mid = (cl + cr) / 2;
+        if (l <= mid) update(l, r, x, p << 1, cl, mid);
+        if (r > mid) update(l, r, x, p << 1 | 1, mid + 1, cr);
+        tr[p] = tr[p << 1] + tr[p << 1 | 1];
+        return;
     }
-    return 0;
-}
+    T query(int l, int r, int p = 1, int cl = 1, int cr = n) {
+        if (cl >= l && cr <= r) {
+            return tr[p];
+        }
+        if (mark[p]) push_down(p, cl, cr);
+        int mid = (cl + cr) / 2;
+        T ans = 0;
+        if (l <= mid) {
+            ans += query(l, r, p << 1, cl, mid);
+        }
+        if (r > mid) {
+            ans += query(l, r, p << 1 | 1, mid + 1, cr);
+        }
+        return ans;
+    }
+};
+
+template<class T>
+int SegmentTree<T>::n = 0;
+
+using S = SegmentTree<ll>;

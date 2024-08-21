@@ -1,0 +1,1 @@
+{"name":"Local: fft","url":"e:\\code\\template\\fft.cpp","tests":[{"id":1720011086560,"input":"1 2\n1 2\n1 2 1","output":"1 4 5 2"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"e:\\code\\template\\fft.cpp","group":"local","local":true}

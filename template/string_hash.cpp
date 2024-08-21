@@ -1,8 +1,8 @@
 #include <bits/stdc++.h>
  
-using i64 = long long;
+using ll = long long;
 template<class T>
-constexpr T power(T a, i64 b) {
+constexpr T power(T a, ll b) {
     T res {1};
     for (; b; b /= 2, a *= a) {
         if (b % 2) {
@@ -12,8 +12,8 @@ constexpr T power(T a, i64 b) {
     return res;
 }
  
-constexpr i64 mul(i64 a, i64 b, i64 p) {
-    i64 res = a * b - i64(1.L * a * b / p) * p;
+constexpr ll mul(ll a, ll b, ll p) {
+    ll res = a * b - ll(1.L * a * b / p) * p;
     res %= p;
     if (res < 0) {
         res += p;
@@ -21,24 +21,24 @@ constexpr i64 mul(i64 a, i64 b, i64 p) {
     return res;
 }
  
-template<i64 P>
+template<ll P>
 struct MInt {
-    i64 x;
+    ll x;
     constexpr MInt() : x {0} {}
-    constexpr MInt(i64 x) : x {norm(x % getMod())} {}
+    constexpr MInt(ll x) : x {norm(x % getMod())} {}
     
-    static i64 Mod;
-    constexpr static i64 getMod() {
+    static ll Mod;
+    constexpr static ll getMod() {
         if (P > 0) {
             return P;
         } else {
             return Mod;
         }
     }
-    constexpr static void setMod(i64 Mod_) {
+    constexpr static void setMod(ll Mod_) {
         Mod = Mod_;
     }
-    constexpr i64 norm(i64 x) const {
+    constexpr ll norm(ll x) const {
         if (x < 0) {
             x += getMod();
         }
@@ -47,7 +47,7 @@ struct MInt {
         }
         return x;
     }
-    constexpr i64 val() const {
+    constexpr ll val() const {
         return x;
     }
     constexpr MInt operator-() const {
@@ -98,7 +98,7 @@ struct MInt {
         return res;
     }
     friend constexpr std::istream &operator>>(std::istream &is, MInt &a) {
-        i64 v;
+        ll v;
         is >> v;
         a = MInt(v);
         return is;
@@ -118,9 +118,9 @@ struct MInt {
 };
  
 template<>
-i64 MInt<0>::Mod = 998244353;
+ll MInt<0>::Mod = 998244353;
  
-constexpr i64 P = i64(1E18) + 9;
+constexpr ll P = ll(1E18) + 9;
 using Z = MInt<P>;
  
 std::mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
@@ -141,7 +141,7 @@ void solve() {
         pw[i] = pw[i - 1] * B;
     }
     
-    std::map<i64, int> cnt;
+    std::map<ll, int> cnt;
     for (int j = 0; j < m; j++) {
         Z h = 0;
         for (int i = 0; i < n; i++) {
@@ -152,7 +152,7 @@ void solve() {
             cnt[h1.val()]++;
         }
     }
-    i64 v = 0;
+    ll v = 0;
     int ans = 0;
     for (auto [x, y] : cnt) {
         if (y > ans) {
