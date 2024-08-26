@@ -1,0 +1,1 @@
+{"name":"Local: j","url":"e:\\code\\cf\\gym\\The 2024 Shanghai Collegiate Programming Contest\\j.cpp","tests":[{"id":1724310141240,"input":"3\n1\n4\n1\n5\n3\n1 2 3\n","output":"0\n-1\n2\n"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"e:\\code\\cf\\gym\\The 2024 Shanghai Collegiate Programming Contest\\j.cpp","group":"local","local":true}

@@ -16,6 +16,10 @@ vector<ll> cal_div(ll n) {
             cur /= i;
         }
     }
+    if (cur > 1) {
+        int m = res.size();
+        for (int i = 0; i < m; i++) res.push_back(cur * res[i]);
+    }
     sort(res.begin(), res.end());
     return res;
 }
