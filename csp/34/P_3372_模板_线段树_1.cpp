@@ -115,3 +115,33 @@ template<class T>
 int SegmentTree<T>::n = 0;
 
 using S = SegmentTree<ll>;
+
+void solve() {
+    int n, q;
+    cin >> n >> q;
+    S t(n);
+    for (int i = 1; i <= n; i++) {
+        ll x;
+        cin >> x;
+        t.set(i, x);
+    }
+    t.build();
+    while (q--) {
+        int c, l, r;
+        cin >> c >> l >> r;
+        if (c == 1) {
+            ll v;
+            cin >> v;
+            t.update(l, r, v);
+        } else {
+            cout << t.query(l, r) << "\n";
+        }
+    }
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+    solve();
+    return 0;
+}

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智慧新康 - 个人中心</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #1e1e1e;
+            color: #ffffff;
+        }
+        .header-nav-container {  
+            display: flex;  
+            justify-content: space-between; 
+            align-items: center;  
+            background-color: #02b0e0; 
+            color: white;  
+            padding: 0px 20px; /* 内边距 */  
+        }  
+        nav {  
+            display: flex; /* 使nav中的链接水平排列 */  
+        }  
+        nav a {  
+            margin-left: 20px;  
+            text-decoration: none;  
+            color: white; /* 链接颜色与背景形成对比 */  
+        }  
+        .profile {
+            display: flex;
+            margin: 20px;
+            align-items: stretch;
+        }
+        .profile .sidebar {
+            width: 25%;
+            background-color: #2b2b2b;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .intro {
+            width: 25%;
+            margin: 20px;
+            display: flex;
+        }
+        .intro .detail h2 {
+            margin: 5px;
+        }
+        .intro .detail p {
+            margin: 5px;
+        }
+        .intro img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+        }
+        .profile .sidebar h2 {
+            font-size: 20px;
+            margin: 10px 0;
+        }
+        .profile .sidebar p {
+            margin: 5px 0;
+        }
+        .profile .sidebar a {
+            font-size: large;
+            color: #000;
+            margin-bottom: 10px;
+        }
+        .profile .sidebar button {
+            background-color: #9b9b9b;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .profile .main-content {
+            width: 70%;
+            margin-left: 5%;
+        }
+        .stats {
+            background-color: #2b2b2b;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .stats h3 {
+            margin: 0 0 10px 0;
+            font-size: 18px;
+        }
+        .stats button {
+            background-color: #d6e105;
+            color: rgb(7, 1, 1);
+            font-weight: bolder;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 20%;
+            margin-top: 10px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #2c2c2c;
+            margin-top: 20px;
+        }
+        .fav {
+            margin: 10px;
+            display: flex;
+            align-items: center;
+            padding: 20px, 20px;
+            justify-content: center; 
+        }
+        .fav .u{
+            text-decoration: none;
+        }
+        .fav .sep {
+            color: #9b9b9b;
+            font-size: 40px;
+        }
+        #container {
+            width: 90%;
+            height: 500px;
+            margin: 10px;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-nav-container">  
+        <header>  
+            <h2>智慧新康</h2>  
+        </header>  
+        <nav>  
+            <a href="#">首页</a>  
+            <a href="#">血压管理</a>  
+            <a href="#">药物管理</a>  
+            <a href="#">健康贴士</a>  
+            <a href="#">登录</a>
+            <a href="#">注册</a>
+        </nav>  
+    </div>  
+    <div class="intro">
+        <img src="https://s2.loli.net/2024/04/14/uDARibvM2fJZ5Fx.jpg" alt="Profile Picture">
+        <div class="detail">
+            <h2>用户名</h2>
+            <p>性别：男</p>
+            <p>年龄：55</p>
+        </div>
+    </div>
+<section class="profile">
+    <div class="sidebar">
+        <div class="fav">
+            <div>
+                <a href="#" class="u" style="color: rgb(123, 241, 206);"> 我的医生 </a>
+            </div>
+            <div class="sep">&nbsp|&nbsp</div>
+            <div>
+                <a href="#" class="u" style="color: rgb(123, 241, 206);"> 我的收藏 </a>
+            </div>
+        </div>
+        <button>编辑个人资料</button>
+        <p>所在地：北京</p>
+        <p>个性签名：<br> 关注健康，享受生活。</p>
+    </div>
+
+    <div class="main-content">
+        <div class="stats">
+            <h3>我的心率血压记录</h3>
+            <button>增加记录</button>
+        </div>
+        <div id="container"></div>
+    </div>
+</section>
+
+<div class="footer">
+    <p>© 2024 智慧新康. 版权所有.</p>
+</div>
+</body>
+
+<script src="https://cdn.anychart.com/releases/8.11.0/js/anychart-base.min.js"></script>
+<script>
+    anychart.onDocumentReady(function () {
+    var data = [
+        ["2024/08/01", 60, 130, 73],
+        ["2024/08/02", 56, 120, 71],
+        ["2024/08/03", 67, 126, 68],
+        ["2024/08/04", 58, 119, 70],
+        ["2024/08/05", 60, 133, 66],
+        ["2024/08/06", 59, 123, 72],
+        ["2024/08/07", 60, 120, 70],
+        ["2024/08/08", 69, 115, 68],
+        ["2024/08/09", 56, 119, 71],
+        ["2024/08/10", 64, 131, 66]
+    ];
+    var dataSet = anychart.data.set(data);
+    var firstSeriesData = dataSet.mapAs({x: 0, value: 1});
+    var secondSeriesData = dataSet.mapAs({x: 0, value: 2});
+    var thirdSeriesData = dataSet.mapAs({x: 0, value: 3});
+    var chart = anychart.line();
+    var firstSeries = chart.line(firstSeriesData);
+    firstSeries.name("心率");
+    var secondSeries = chart.line(secondSeriesData);
+    secondSeries.name("收缩压");
+    var thirdSeries = chart.line(thirdSeriesData);
+    thirdSeries.name("舒张压");
+    firstSeries.normal().stroke("#7b60a2", 2.5);
+    secondSeries.normal().stroke("#db7346", 2.5);
+    thirdSeries.normal().stroke("#43a7dc", 2.5);
+    // chart.legend().enabled(true);
+    chart.legend().enabled(true).fontSize(14).padding([10, 0, 10, 0]);
+    chart.title("血压心率记录");
+    chart.container("container");      
+    chart.draw();
+    });
+</script>
+        
+</html>

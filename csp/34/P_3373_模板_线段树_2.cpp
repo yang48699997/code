@@ -2,20 +2,20 @@
 using namespace std;
 
 using ll = long long;
-
 template<class T>
 struct SegmentTree {
     static int n;
-    vector<T> a, tr, mark, mi, mx;
+    vector<T> a, tr, mark, mi, mx, mark2;
     SegmentTree(int x) {
         n = x;
         a.resize(x + 1);
         tr.resize((x + 1) << 2);
         mark.resize((x + 1) << 2);
+        mark2.resize((x + 1) << 2, 1);
         mi.resize((x + 1) << 2);
         mx.resize((x + 1) << 2);
     }
-
+    SegmentTree() {}
     void set(int i, T x) {
         a[i] = x;
     }
@@ -35,15 +35,26 @@ struct SegmentTree {
     }
     void push_down(int p, int l, int r) {
         int len = r - l + 1;
+        tr[p << 1] *= mark2[p];
+        mark2[p << 1] *= mark2[p];
         tr[p << 1] += (len + 1) / 2 * mark[p];
-        mi[p << 1] += mark[p];
-        mx[p << 1] += mark[p];
-        tr[p << 1 | 1] += len / 2 * mark[p];
-        mi[p << 1 | 1] += mark[p];
-        mx[p << 1 | 1] += mark[p];
+        mark[p << 1] *= mark2[p];
         mark[p << 1] += mark[p];
+        mi[p << 1] *= mark2[p];
+        mi[p << 1] += mark[p];
+        mx[p << 1] *= mark2[p];
+        mx[p << 1] += mark[p];
+        tr[p << 1 | 1] *= mark2[p];
+        mark2[p << 1 | 1] *= mark2[p];
+        tr[p << 1 | 1] += len / 2 * mark[p];
         mark[p << 1 | 1] += mark[p];
+        mark[p << 1 | 1] *= mark2[p];
+        mi[p << 1 | 1] *= mark2[p];
+        mi[p << 1 | 1] += mark[p];
+        mx[p << 1 | 1] *= mark2[p];
+        mx[p << 1 | 1] += mark[p];
         mark[p] = 0;
+        mark2[p] = 1;
         return;
     }
     void update(int l, int r, T x, int p = 1, int cl = 1, int cr = n) {
@@ -55,10 +66,27 @@ struct SegmentTree {
             mark[p] += x;
             return;
         }
-        if (mark[p]) push_down(p, cl, cr);
+        if (mark[p] || mark2[p] != 1)push_down(p, cl, cr);
         int mid = (cl + cr) / 2;
         if (l <= mid) update(l, r, x, p << 1, cl, mid);
         if (r > mid) update(l, r, x, p << 1 | 1, mid + 1, cr);
+        tr[p] = tr[p << 1] + tr[p << 1 | 1];
+        mi[p] = min(mi[p << 1], mi[p << 1 | 1]);
+        mx[p] = max(mx[p << 1], mx[p << 1 | 1]);
+        return;
+    }
+    void update2(int l, int r, T x, int p = 1, int cl = 1, int cr = n) {
+        if (cl >= l && cr <= r) {
+            int len = cr - cl + 1;
+            tr[p] = tr[p] * x;
+            mark2[p] = mark2[p];
+            mark[p] = mark[p];
+            return;
+        }
+        if (mark[p] || mark2[p] != 1)push_down(p, cl, cr);
+        int mid = (cl + cr) / 2;
+        if (l <= mid) update2(l, r, x, p << 1, cl, mid);
+        if (r > mid) update2(l, r, x, p << 1 | 1, mid + 1, cr);
         tr[p] = tr[p << 1] + tr[p << 1 | 1];
         mi[p] = min(mi[p << 1], mi[p << 1 | 1]);
         mx[p] = max(mx[p << 1], mx[p << 1 | 1]);
@@ -115,3 +143,13 @@ template<class T>
 int SegmentTree<T>::n = 0;
 
 using S = SegmentTree<ll>;
+void solve() {
+    int n, m
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+    solve();
+    return 0;
+}

@@ -1,0 +1,1 @@
+{"name":"Local: b","url":"e:\\code\\csp\\34\\b.cpp","tests":[{"id":1725866123569,"input":"3 2 3\n1 2\n3 4\n5 6\n3 0 1\n1 2 3\n3 1 2","output":""},{"id":1725867419196,"input":"3 2 5\n1 2\n3 4\n5 6\n3 1 0\n2 0 0\n3 1 0\n1 3 2\n3 1 0\n","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"e:\\code\\csp\\34\\b.cpp","group":"local","local":true}
