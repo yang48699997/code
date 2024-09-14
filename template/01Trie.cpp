@@ -10,13 +10,11 @@ struct Trie {
         cnt=0;
         for (int i = 0; i < 2; i++) son[i] = nullptr;
     }
-
     ~Trie(){
         for(Trie *nxt: son) {
             if(nxt) delete nxt;
         }
     }
-
     string to_bin(int x){
         string res;
         for (int i = 0; i < N; i++){
@@ -27,7 +25,6 @@ struct Trie {
         reverse(res.begin() ,res.end());
         return res;
     }
-
     int to_int(string word){
         int res=0;
         for(int i = 0; i < N; i ++){
@@ -35,7 +32,6 @@ struct Trie {
         }
         return res;
     }
-
     void insert(int x){
         string word = to_bin(x);
         Trie *node = this;
@@ -46,7 +42,6 @@ struct Trie {
         }
         this -> cnt++;
     }
-
     int search(int x){
         string word = to_bin(x);
         Trie *node = this;
@@ -57,7 +52,6 @@ struct Trie {
         }
         return node -> cnt;
     }
-
     void erase(int x){
         string word = to_bin(x);
         Trie *node = this;
@@ -68,7 +62,6 @@ struct Trie {
         this -> cnt--;
         return;
     }
-
     int xor_max(int x){
         string word = to_bin(x);
         Trie *node = this;

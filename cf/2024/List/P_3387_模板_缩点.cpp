@@ -2,7 +2,6 @@
 using namespace std;
 
 using ll = long long;
-
 struct Tarjan {
     int tot, top, cnt;
     int n;
@@ -48,5 +47,59 @@ struct Tarjan {
             if (!dfn[i]) tarjan(i);
         }
         return;
-    }  
+    }
+    
 };
+void solve() {
+    int n, m;
+    cin >> n >> m;
+    vector<int> a(n);
+    for (int i = 0; i < n; i++) {
+        cin >> a[i];
+    }
+    Tarjan tj(n);
+    vector<pair<int, int>> p;
+    for (int i = 0; i < m; i++) {
+        int x, y;
+        cin >> x >> y;
+        tj.addEdge(x, y);
+        p.emplace_back(x, y);
+    }
+    tj.work();
+    vector<int> sum(n + 1);
+    vector<int> dp(n + 1);
+    vector<int> deg(n + 1);
+    vector<vector<int>> e(n + 1);
+    for (int i = 1; i <= n; i++) {
+        sum[tj.scc[i]] += a[i - 1];
+        for (int nxt : tj.e[i]) {
+            if (tj.scc[nxt] == tj.scc[i]) continue;
+            deg[tj.scc[nxt]]++;
+            e[tj.scc[i]].push_back(tj.scc[nxt]);
+        }
+    }
+    queue<int> q;
+    for (int i = 1; i <= tj.cnt; i++) {
+        if (deg[i] == 0) q.push(i);
+    }
+    int ans = 0;
+    while (!q.empty()) {
+        int x = q.front();
+        q.pop();
+        sum[x] += dp[x];
+        ans = max(ans, sum[x]);
+        for (int nxt : e[x]) {
+            deg[nxt]--;
+            dp[nxt] = max(dp[nxt], sum[x]);
+            if (deg[nxt] == 0) q.push(nxt);
+        }
+    }
+    cout << ans << "\n";
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+    solve();
+    return 0;
+}
