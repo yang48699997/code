@@ -1,5 +1,3 @@
-#include <bits/stdc++.h>
- 
 using ll = long long;
 template<class T>
 constexpr T power(T a, ll b) {
@@ -123,74 +121,6 @@ ll MInt<0>::Mod = 998244353;
 constexpr ll P = ll(1E18) + 9;
 using Z = MInt<P>;
  
-std::mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
+mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 const Z B = rng();
  
-void solve() {
-    int n, m;
-    std::cin >> n >> m;
-    
-    std::vector<std::string> s(n);
-    for (int i = 0; i < n; i++) {
-        std::cin >> s[i];
-    }
-    
-    std::vector<Z> pw(n);
-    pw[0] = 1;
-    for (int i = 1; i < n; i++) {
-        pw[i] = pw[i - 1] * B;
-    }
-    
-    std::map<ll, int> cnt;
-    for (int j = 0; j < m; j++) {
-        Z h = 0;
-        for (int i = 0; i < n; i++) {
-            h = B * h + (s[i][j] - '0');
-        }
-        for (int i = 0; i < n; i++) {
-            Z h1 = h + (s[i][j] == '1' ? -1 : 1) * pw[n - 1 - i];
-            cnt[h1.val()]++;
-        }
-    }
-    ll v = 0;
-    int ans = 0;
-    for (auto [x, y] : cnt) {
-        if (y > ans) {
-            ans = y;
-            v = x;
-        }
-    }
-    std::cout << ans << "\n";
-    for (int j = 0; j < m; j++) {
-        Z h = 0;
-        for (int i = 0; i < n; i++) {
-            h = B * h + (s[i][j] - '0');
-        }
-        for (int i = 0; i < n; i++) {
-            Z h1 = h + (s[i][j] == '1' ? -1 : 1) * pw[n - 1 - i];
-            if (v == h1.val()) {
-                std::string ans;
-                for (int x = 0; x < n; x++) {
-                    ans += s[x][j];
-                }
-                ans[i] ^= 1;
-                std::cout << ans << "\n";
-                return;
-            }
-        }
-    }
-}
- 
-int main() {
-    std::ios::sync_with_stdio(false);
-    std::cin.tie(nullptr);
-    
-    int t;
-    std::cin >> t;
-    
-    while (t--) {
-        solve();
-    }
-    
-    return 0;
-}

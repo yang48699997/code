@@ -1,16 +1,11 @@
-#include <bits/stdc++.h>
-#define endl '\n'
-
-using ll = long long;
-using namespace std;
-
+template<class T>
 struct ex_KMP{
-    string s1, s2;
+    T s1, s2;
     vector<int> nxt, ex;
     int n, m;
-    ex_KMP(string s1, string s2) : nxt(s2.length()), ex(s1.length()) {
-        n = s1.length();
-        m = s2.length();
+    ex_KMP(T s1, T s2) : nxt(s2.size()), ex(s1.size()) {
+        n = s1.size();
+        m = s2.size();
         this -> s1 = s1;
         this -> s2 = s2;
         int a = 0, p = 0;

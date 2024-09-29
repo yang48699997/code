@@ -1,0 +1,198 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+using ll = long long;
+
+template<class T>
+struct SegmentTree {
+    static int n;
+    vector<T> a, tr, mark, mi, mx, mark2;
+    SegmentTree(int x) {
+        n = x;
+        a.resize(x + 1);
+        tr.resize((x + 1) << 2);
+        mark.resize((x + 1) << 2);
+        mark2.resize((x + 1) << 2, 1);
+        mi.resize((x + 1) << 2);
+        mx.resize((x + 1) << 2);
+    }
+    SegmentTree() {}
+    void set(int i, T x) {
+        a[i] = x;
+    }
+    void build(int p = 1, int l = 1, int r = n) {
+        if (l == r) {
+            tr[p] = a[l];
+            mi[p] = a[l];
+            mx[p] = a[l];
+            return;
+        }
+        int mid = (l + r) / 2;
+        build(p << 1, l, mid);
+        build(p << 1 | 1, mid + 1, r);
+        tr[p] = tr[p << 1] + tr[p << 1 | 1];
+        mi[p] = min(mi[p << 1], mi[p << 1 | 1]);
+        mx[p] = max(mx[p << 1], mx[p << 1 | 1]);
+    }
+    void push_down(int p, int l, int r) {
+        int len = r - l + 1;
+        tr[p << 1] *= mark2[p];
+        mark2[p << 1] *= mark2[p];
+        tr[p << 1] += (len + 1) / 2 * mark[p];
+        mi[p << 1] *= mark2[p];
+        mark[p << 1] *= mark2[p];
+        mark[p << 1] += mark[p];
+        mi[p << 1] *= mark2[p];
+        mi[p << 1] += mark[p];
+        mx[p << 1] *= mark2[p];
+        mx[p << 1] += mark[p];
+        tr[p << 1 | 1] *= mark2[p];
+        mark2[p << 1 | 1] *= mark2[p];
+        tr[p << 1 | 1] += len / 2 * mark[p];
+        mark[p << 1 | 1] *= mark2[p];
+        mark[p << 1 | 1] += mark[p];
+        mi[p << 1 | 1] *= mark2[p];
+        mi[p << 1 | 1] += mark[p];
+        mx[p << 1 | 1] *= mark2[p];
+        mx[p << 1 | 1] += mark[p];
+        mark[p] = 0;
+        mark2[p] = 1;
+        return;
+    }
+    void update(int l, int r, T x, int p = 1, int cl = 1, int cr = n) {
+        if (cl >= l && cr <= r) {
+            int len = cr - cl + 1;
+            tr[p] += len * x;
+            mi[p] += x;
+            mx[p] += x;
+            mark[p] += x;
+            return;
+        }
+        if (mark[p] || mark2[p] != 1) push_down(p, cl, cr);
+        int mid = (cl + cr) / 2;
+        if (l <= mid) update(l, r, x, p << 1, cl, mid);
+        if (r > mid) update(l, r, x, p << 1 | 1, mid + 1, cr);
+        tr[p] = tr[p << 1] + tr[p << 1 | 1];
+        mi[p] = min(mi[p << 1], mi[p << 1 | 1]);
+        mx[p] = max(mx[p << 1], mx[p << 1 | 1]);
+        return;
+    }
+    void update2(int l, int r, T x, int p = 1, int cl = 1, int cr = n) {
+        if (cl >= l && cr <= r) {
+            int len = cr - cl + 1;
+            tr[p] = tr[p] * x;
+            mark[p] *= x;
+            mark2[p] *= x;
+            mi[p] *= x;
+            mx[p] *= x;
+            return;
+        }
+        if (mark[p] || mark2[p] != 1) push_down(p, cl, cr);
+        int mid = (cl + cr) / 2;
+        if (l <= mid) update2(l, r, x, p << 1, cl, mid);
+        if (r > mid) update2(l, r, x, p << 1 | 1, mid + 1, cr);
+        tr[p] = tr[p << 1] + tr[p << 1 | 1];
+        mi[p] = min(mi[p << 1], mi[p << 1 | 1]);
+        mx[p] = max(mx[p << 1], mx[p << 1 | 1]);
+        return;
+    }
+    T query(int l, int r, int p = 1, int cl = 1, int cr = n) {
+        if (cl >= l && cr <= r) {
+            return tr[p];
+        }
+        if (mark[p] || mark2[p] != 1) push_down(p, cl, cr);
+        int mid = (cl + cr) / 2;
+        T ans = 0;
+        if (l <= mid) {
+            ans += query(l, r, p << 1, cl, mid);
+        }
+        if (r > mid) {
+            ans += query(l, r, p << 1 | 1, mid + 1, cr);
+        }
+        return ans;
+    }
+    T query_max(int l, int r, int p = 1, int cl = 1, int cr = n) {
+        if (cl >= l && cr <= r) {
+            return mx[p];
+        }
+        if (mark[p]) push_down(p, cl, cr);
+        int mid = (cl + cr) / 2;
+        T ans = numeric_limits<T>::min();
+        if (l <= mid) {
+            ans = max(ans, query_max(l, r, p << 1, cl, mid));
+        }
+        if (r > mid) {
+            ans = max(ans, query_max(l, r, p << 1 | 1, mid + 1, cr));
+        }
+        return ans;
+    }
+    T query_min(int l, int r, int p = 1, int cl = 1, int cr = n) {
+        if (cl >= l && cr <= r) {
+            return mi[p];
+        }
+        if (mark[p]) push_down(p, cl, cr);
+        int mid = (cl + cr) / 2;
+        T ans = numeric_limits<T>::max();
+        if (l <= mid) {
+            ans = min(ans, query_min(l, r, p << 1, cl, mid));
+        }
+        if (r > mid) {
+            ans = min(ans, query_min(l, r, p << 1 | 1, mid + 1, cr));
+        }
+        return ans;
+    }
+};
+
+template<class T>
+int SegmentTree<T>::n = 0;
+
+using S = SegmentTree<ll>;
+
+void solve() {
+    int n;
+    cin >> n;
+    vector<int> a(n);
+    for (int i = 0; i < n; i++) cin >> a[i];
+    int q;
+    cin >> q;
+    vector<char> c(q);
+    vector<int> l(q), r(q), x(q);
+    for (int i = 0; i < q; i++) {
+        cin >> c[i] >> l[i] >> r[i];
+        if (c[i] == '2') cin >> x[i];
+    }
+    
+    
+    vector<ll> ans(q);
+    for (int i = 0; i < 20; i++) {
+        S t(n);
+        for (int j = 0; j < n; j++) {
+            if (a[j] & 1) t.set(j + 1, 1);
+            else t.set(j + 1, 0);
+            a[j] >>= 1;
+        }
+        t.build();
+        for (int p = 0; p < q; p++) {
+            if (c[p] == '1') {
+                ans[p] += t.query(l[p], r[p]) << i;
+            } else {
+                if (x[p] & 1) {
+                    t.update(l[p], r[p], -1);
+                    t.update2(l[p], r[p], -1);
+                }
+                x[p] >>= 1;
+            }
+        }
+    }
+    for (int i = 0; i < q; i++) {
+        if (c[i] == '1') cout << ans[i] << "\n";
+    }
+
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+    solve();
+    return 0;
+}

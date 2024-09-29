@@ -1,8 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-using ll = long long;
-
 struct Tarjan {
     int tot, top, cnt;
     int n;

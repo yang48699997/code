@@ -1,7 +1,3 @@
-#include <bits/stdc++.h>
-
-using namespace std;
-
 using ll = long long;
 template<class T>
 constexpr T power(T a, ll b) {

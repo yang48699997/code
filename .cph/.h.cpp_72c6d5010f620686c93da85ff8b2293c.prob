@@ -1,0 +1,1 @@
+{"name":"Local: h","url":"e:\\code\\vp\\The 3rd Universal Cup\\0\\h.cpp","tests":[{"id":1727311978083,"input":"5 100\n31 41\n59 26\n31 41\n59 26\n31 41\n","output":"101.823376\n120.208153\n73.539105\n0.000000\n101.823376\n"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"e:\\code\\vp\\The 3rd Universal Cup\\0\\h.cpp","group":"local","local":true}

@@ -1,8 +1,4 @@
-#include <bits/stdc++.h>
-using namespace std;
-
 using ll = long long;
-
 template<class T>
 struct Edge {
     int to;

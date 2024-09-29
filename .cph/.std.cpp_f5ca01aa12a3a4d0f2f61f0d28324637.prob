@@ -1,0 +1,1 @@
+{"name":"Local: std","url":"e:\\code\\niucode\\129\\T\\std.cpp","tests":[{"id":1727439877613,"input":"1\n10 22\n9 10 9 26 12 7 29 6 0 23","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"e:\\code\\niucode\\129\\T\\std.cpp","group":"local","local":true}

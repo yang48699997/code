@@ -1,10 +1,4 @@
-#include<bits/stdc++.h>
-#define p2(i) (1 << i)
-
-using namespace std;
-
 int n,mod;
-
 void OR(int a[], int A[], int op) {
     for(int i = 0; i < p2(n); i++) A[i] = a[i];
     for(int i = 0; i < n; i++) 

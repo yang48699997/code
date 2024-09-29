@@ -79,4 +79,3 @@ struct Trie {
         return res;
     }
 };
-
