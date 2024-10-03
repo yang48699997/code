@@ -1,77 +1,153 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define int long long
-#define f first
-#define s second
-const int N = 500000 + 5;
-char str[N];
-struct Node
-{
-	int len, fa;
-	int ch[26];
-}node[N*4];
-int tot = 1, last = 1;
-int summ = 0;//不同的子串数
-void extend(int c)
-{
-	int p = last, np = last = ++tot;
-	node[np].len = node[p].len + 1;
-	for (; p && !node[p].ch[c]; p = node[p].fa) node[p].ch[c] = np;
-	if (!p) {
-		node[np].fa = 1; summ += node[np].len - node[node[np].fa].len;
-	}
-	else
-	{
-		int q = node[p].ch[c];
-		if (node[q].len == node[p].len + 1) { node[np].fa = q; summ += node[np].len - node[node[np].fa].len; }
-		else {
-			int nq = ++tot;
-			summ -= node[q].len - node[node[q].fa].len;
-			node[nq] = node[q], node[nq].len = node[p].len + 1;
-			node[q].fa = node[np].fa = nq;
-			summ += node[q].len - node[node[q].fa].len;
-			summ += node[np].len - node[node[np].fa].len;
-			summ += node[nq].len - node[node[nq].fa].len;
-			for (; p && node[p].ch[c] == q; p = node[p].fa) node[p].ch[c] = nq;
-		}
-	}
+using ll = long long;
+template<class T>
+constexpr T power(T a, ll b) {
+    T res {1};
+    for (; b; b /= 2, a *= a) {
+        if (b % 2) {
+            res *= a;
+        }
+    }
+    return res;
 }
-signed main() {
-	ios_base::sync_with_stdio(0);
-	cin.tie(0), cout.tie(0);
-	int n, m;
-	cin >> n >> m;
-	cin >> str + 1;
-	string t;
-	cin >> t;
-	t = ' ' + t;
-	vector<int>sum(30);
-	int all = 0;
-	//int summ = 0;;
-	for (int i = 1; i <= n - m + 1; i++) {
-		int pre_tot = summ;
-		extend(str[i] - 'a');
-	//	summ = 0;
-	//	for (int j = 2; j <= tot; j++) {
-	//		summ += node[j].len - node[node[j].fa].len;
-	//	}
-		sum[str[i] - 'a'] += (summ - pre_tot);
+ 
+constexpr ll mul(ll a, ll b, ll p) {
+    ll res = a * b - ll(1.L * a * b / p) * p;
+    res %= p;
+    if (res < 0) {
+        res += p;
+    }
+    return res;
+}
+ 
+template<ll P>
+struct MInt {
+    ll x;
+    constexpr MInt() : x {0} {}
+    constexpr MInt(ll x) : x {norm(x % getMod())} {}
+    
+    static ll Mod;
+    constexpr static ll getMod() {
+        if (P > 0) {
+            return P;
+        } else {
+            return Mod;
+        }
+    }
+    constexpr static void setMod(ll Mod_) {
+        Mod = Mod_;
+    }
+    constexpr ll norm(ll x) const {
+        if (x < 0) {
+            x += getMod();
+        }
+        if (x >= getMod()) {
+            x -= getMod();
+        }
+        return x;
+    }
+    constexpr ll val() const {
+        return x;
+    }
+    constexpr MInt operator-() const {
+        MInt res;
+        res.x = norm(getMod() - x);
+        return res;
+    }
+    constexpr MInt inv() const {
+        return power(*this, getMod() - 2);
+    }
+    constexpr MInt &operator*=(MInt rhs) & {
+        if (getMod() < (1ULL << 31)) {
+            x = x * rhs.x % int(getMod());
+        } else {
+            x = mul(x, rhs.x, getMod());
+        }
+        return *this;
+    }
+    constexpr MInt &operator+=(MInt rhs) & {
+        x = norm(x + rhs.x);
+        return *this;
+    }
+    constexpr MInt &operator-=(MInt rhs) & {
+        x = norm(x - rhs.x);
+        return *this;
+    }
+    constexpr MInt &operator/=(MInt rhs) & {
+        return *this *= rhs.inv();
+    }
+    friend constexpr MInt operator*(MInt lhs, MInt rhs) {
+        MInt res = lhs;
+        res *= rhs;
+        return res;
+    }
+    friend constexpr MInt operator+(MInt lhs, MInt rhs) {
+        MInt res = lhs;
+        res += rhs;
+        return res;
+    }
+    friend constexpr MInt operator-(MInt lhs, MInt rhs) {
+        MInt res = lhs;
+        res -= rhs;
+        return res;
+    }
+    friend constexpr MInt operator/(MInt lhs, MInt rhs) {
+        MInt res = lhs;
+        res /= rhs;
+        return res;
+    }
+    friend constexpr std::istream &operator>>(std::istream &is, MInt &a) {
+        ll v;
+        is >> v;
+        a = MInt(v);
+        return is;
+    }
+    friend constexpr std::ostream &operator<<(std::ostream &os, const MInt &a) {
+        return os << a.val();
+    }
+    friend constexpr bool operator==(MInt lhs, MInt rhs) {
+        return lhs.val() == rhs.val();
+    }
+    friend constexpr bool operator!=(MInt lhs, MInt rhs) {
+        return lhs.val() != rhs.val();
+    }
+    friend constexpr bool operator<(MInt lhs, MInt rhs) {
+        return lhs.val() < rhs.val();
+    }
+};
+ 
+template<>
+ll MInt<0>::Mod = 998244353;
+ 
+constexpr ll P = 1e9 + 7;
+using Z = MInt<P>;
+ 
+
+void solve() {
+    int n;
+    cin >> n;
+    int l, r;
+    cin >> l >> r;
+    int a;
+    cin >> a;
+    int ans = 0;
+	for (int i = l; i <= r; i++) {
+		int p = 0;
+		int now = i;
+		while (now) {
+			p |= 1 << (now % 10);
+			now /= 10;
+		}
+		if (__builtin_popcount(p) == a) ans++;
 	}
-	all += summ;
-	for (int i = n - m + 2; str[i]; i++) {
-		int j = i - (n - m);
-		int pre_tot = summ;
-		extend(str[i] - 'a');
-	//	summ = 0;
-	//	for (int j = 2; j <= tot; j++) {
-	//		summ += node[j].len - node[node[j].fa].len;
-	//	}
-		sum[str[i] - 'a'] += (summ - pre_tot);
-		all += summ;
-		all -= sum[t[j - 1] - 'a'];
-		if (sum[t[j - 1] - 'a']) all++;
-	}
-    // cerr << summ;
-	cout << all;
+	cout << ans << "\n";
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+    solve();
+    return 0;
 }

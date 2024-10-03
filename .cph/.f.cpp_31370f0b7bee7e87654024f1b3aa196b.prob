@@ -1,0 +1,1 @@
+{"name":"Local: f","url":"e:\\code\\vp\\2023北航校赛\\f.cpp","tests":[{"id":1727618729556,"input":"5\n5+6=9\n1\n1+1=999\n4\n547+283=192\n2\n0-0=0\n3\n111+222=33\n5\n","output":"Yes\nNo\nNo\nYes\nYes"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"e:\\code\\vp\\2023北航校赛\\f.cpp","group":"local","local":true}

@@ -1,3 +1,6 @@
+#include <bits/stdc++.h>
+using namespace std;
+
 using ll = long long;
 
 struct BigInt {
@@ -341,3 +344,57 @@ struct BigInt {
 
 using B = BigInt;
 
+template<class T>
+struct EXCRT {
+    int n;
+    T x, y, d;
+    vector<T> A, B;
+    EXCRT () : n(0), A(0), B(0) {}
+    void add(T a, T b) {
+        n++;
+        A.emplace_back(a);
+        B.emplace_back(b);
+    }
+    void exgcd(T &x, T &y, T a, T b) {
+        if (b == 0) {
+            d = a;
+            x = 1;
+            y = 0;
+        } else {
+            exgcd(y, x, b, a % b);
+            y -= a / b * x;
+        }
+    }
+    T gcd(T a, T b) {
+        while (b != 0) {
+            T tmp = a % b;
+            a = b;
+            b = tmp;
+        }
+        return a;
+    }
+    T lcm(T a, T b) {
+        return a * b / gcd(a, b);
+    }
+    T work() {
+        if (n == 0) return -1;
+        T a = A[0];
+        T b = B[0];
+        for (int i = 1; i < n; i++) {
+            exgcd(x, y, a, A[i]);
+            T c = B[i] - b;
+            if (c % d != 0) {
+                return -1;
+            }
+            x = x * c / d % (A[i] / d);
+            if (x < 0) x += A[i] / d;
+            T mod = lcm(a, A[i]);
+            b = (a * x + b) % mod;
+            if (b < 0) b += mod;
+            a = mod;
+        }
+        return b % a;
+    }
+};
+
+using E = EXCRT<B>; 

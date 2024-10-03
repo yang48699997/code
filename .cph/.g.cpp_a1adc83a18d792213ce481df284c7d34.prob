@@ -1,0 +1,1 @@
+{"name":"Local: g","url":"e:\\code\\vp\\2023北航校赛\\g.cpp","tests":[{"id":1727681002254,"input":"5 3 4\n2 3 5\n1 3 2","output":"9"},{"id":1727681011523,"input":"10 5 20\n4 6 5 3 2\n8 12 16 3 14","output":"121"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"e:\\code\\vp\\2023北航校赛\\g.cpp","group":"local","local":true}

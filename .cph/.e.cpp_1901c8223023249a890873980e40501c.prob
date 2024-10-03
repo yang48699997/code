@@ -1,0 +1,1 @@
+{"name":"Local: e","url":"e:\\code\\vp\\2023哈尔滨工程\\e.cpp","tests":[{"id":1727865768838,"input":"4\n11\nabcdefghija\n4\naabb\n5\naaaaa\n14\nhenhenhenaaaaa","output":"2045\n3\n1\n549"},{"id":1727868670985,"input":"2\n3\naba\n2\nab","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"e:\\code\\vp\\2023哈尔滨工程\\e.cpp","group":"local","local":true}

@@ -121,56 +121,59 @@ struct MInt {
 template<>
 ll MInt<0>::Mod = 998244353;
  
-constexpr ll P = 1e9 + 7;
+constexpr ll P = 998244353;
 using Z = MInt<P>;
- 
+
+const int mx = 105; 
+Z C[mx][mx];
+
+void init() {
+    for (int i = 0; i < mx; i++) {
+        for (int j = 0; j < mx; j++) {
+            C[i][j] = 0;
+        }
+    }
+    C[0][0] = 1;
+    for (int i = 1; i < mx; i++) {
+        C[i][0] = 1;
+        for (int j = 1; j <= i; j++) {
+            C[i][j] = C[i - 1][j] + C[i - 1][j - 1];
+        }
+    }
+}
 
 void solve() {
-    int n;
-    cin >> n;
-    string l, r;
-    cin >> l >> r;
-    int a;
-    cin >> a;
-    vector<vector<int>> v(n, vector<int> (11));
-    vector<vector<Z>> mp(n, vector<Z> (11));
-
-    auto dfs = [&](auto &&self, int i, int p, int mi, int mx) -> Z {
-        int cnt = __builtin_popcount(p);
-        if (i == n) {
-            if (cnt == a) return 1;
-            return 0;
-        }
-        Z res = 0;
-        if (!mi && !mx) {
-            if (v[i][cnt]) return mp[i][cnt];
-            res += cnt * self(self, i + 1, (1 << cnt) - 1, 0, 0);
-            if (cnt < 10) res += (10 - cnt) * self(self, i + 1, (1 << cnt << 1) - 1, 0, 0);
-            mp[i][cnt] = res;
-            v[i][cnt] = 1;
-            return res;
-        } else if (mi && mx) {
-            for (int j = l[i] - '0'; j <= r[i] - '0'; j++) {
-                res += self(self, i + 1, p | 1 << j, j == l[i] - '0', j == r[i] - '0');
-            }
-        } else if (mi) {
-            for (int j = l[i] - '0'; j < 10; j++) {
-                res += self(self, i + 1, p | 1 << j, j == l[i] - '0', 0);
-            }
-        } else {
-            for (int j = 0; j <= r[i] - '0'; j++) {
-                res += self(self, i + 1, p | 1 << j, 0, j == r[i] - '0');
+    int n, m, k;
+    cin >> n >> k >> m;
+    string s, t;
+    cin >> s >> t;
+    int cnt = 0;
+    for (int i = 0; i < n; i++) {
+        cnt += (s[i] != t[i]);
+    }
+    vector<Z> dp(n + 1);
+    dp[cnt] = 1;
+    for (int i = 0; i < k; i++) {
+        vector<Z> tmp(n + 1);
+        for (int j = 0; j <= n; j++) {
+            for (int p = 0; p <= min(j, m); p++) {
+                if (p + n - j < m) continue;
+                tmp[j - p + m - p] += dp[j] * C[j][p] * C[n - j][m - p];
             }
         }
-
-        return res;
-    };
-    cout << dfs(dfs, 0, 0, 1, 1);
+        dp = tmp;
+    }
+    cout << dp[0] << "\n";
 }
 
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(0);
-    solve();
+    int T;
+    cin >> T;
+    init();
+    while (T--) {
+        solve();
+    }
     return 0;
 }

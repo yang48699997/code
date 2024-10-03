@@ -121,56 +121,54 @@ struct MInt {
 template<>
 ll MInt<0>::Mod = 998244353;
  
-constexpr ll P = 1e9 + 7;
+constexpr ll P = 998244353;
 using Z = MInt<P>;
  
-
 void solve() {
     int n;
     cin >> n;
-    string l, r;
-    cin >> l >> r;
-    int a;
-    cin >> a;
-    vector<vector<int>> v(n, vector<int> (11));
-    vector<vector<Z>> mp(n, vector<Z> (11));
-
-    auto dfs = [&](auto &&self, int i, int p, int mi, int mx) -> Z {
-        int cnt = __builtin_popcount(p);
-        if (i == n) {
-            if (cnt == a) return 1;
-            return 0;
+    string s;
+    cin >> s;
+    Z ans = 0;
+    vector<vector<Z>> dp(n + 1, vector<Z> (26));
+    vector<vector<int>> cnt(n + 1, vector<int> (26));
+    vector<int> v(26);
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < 26; j++) {
+            dp[i + 1][j] = dp[i][j];
+            cnt[i + 1][j] = cnt[i][j];
         }
-        Z res = 0;
-        if (!mi && !mx) {
-            if (v[i][cnt]) return mp[i][cnt];
-            res += cnt * self(self, i + 1, (1 << cnt) - 1, 0, 0);
-            if (cnt < 10) res += (10 - cnt) * self(self, i + 1, (1 << cnt << 1) - 1, 0, 0);
-            mp[i][cnt] = res;
-            v[i][cnt] = 1;
-            return res;
-        } else if (mi && mx) {
-            for (int j = l[i] - '0'; j <= r[i] - '0'; j++) {
-                res += self(self, i + 1, p | 1 << j, j == l[i] - '0', j == r[i] - '0');
-            }
-        } else if (mi) {
-            for (int j = l[i] - '0'; j < 10; j++) {
-                res += self(self, i + 1, p | 1 << j, j == l[i] - '0', 0);
+        if (i > 0 && s[i] == s[i - 1]) continue;
+        if (!v[s[i] - 'a']) {
+            dp[i + 1][s[i] - 'a'] = 1;
+            v[s[i] - 'a'] = i + 1;
+            for (int j = 0; j < 26; j++) {
+                if (cnt[i + 1][j] - cnt[0][j] == 0) continue;
+                dp[i + 1][s[i] - 'a'] += dp[i + 1][j];
             }
         } else {
-            for (int j = 0; j <= r[i] - '0'; j++) {
-                res += self(self, i + 1, p | 1 << j, 0, j == r[i] - '0');
+            dp[i + 1][s[i] - 'a'] = dp[v[s[i] - 'a']][s[i] - 'a'];
+            for (int j = 0; j < 26; j++) {
+                if (cnt[i + 1][j] - cnt[v[s[i] - 'a']][j] == 0) continue;
+                dp[i + 1][s[i] - 'a'] += dp[i + 1][j];
             }
+            v[s[i] - 'a'] = i + 1;
         }
-
-        return res;
-    };
-    cout << dfs(dfs, 0, 0, 1, 1);
+        cnt[i + 1][s[i] - 'a']++;
+    }
+    for (int i = 0; i < 26; i++) {
+        ans += dp[n][i];
+    }
+    cout << ans << "\n";
 }
 
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(0);
-    solve();
+    int T;
+    cin >> T;
+    while (T--) {
+        solve();
+    }
     return 0;
 }

@@ -121,51 +121,85 @@ struct MInt {
 template<>
 ll MInt<0>::Mod = 998244353;
  
-constexpr ll P = 1e9 + 7;
+constexpr ll P = 998244353;
 using Z = MInt<P>;
  
+Z pp = 0;
+struct Node{
+    int fa, len, ok;
+    Z cnt;
+    map<int, int> nxt;
+    Node() {
+        nxt.clear();
+        fa = 0;
+        len = 0;
+        ok = 0;
+        cnt = 1;
+    }
+};
+
+template<class T>
+struct SAM{
+    const int N = 1e6+5;
+    int cnt, last;
+    vector<vector<int>> e;
+    ll sum;
+    vector<T> sam;
+    SAM(int n) : sam(2 * n), e(2 * n) {
+        cnt = 1;
+        last = 1;
+        sum = 0;
+    }
+    SAM() : sam(N) {
+        cnt = 1;
+        last = 1;
+        sum = 0;
+    }
+    void insert(int ch) {
+        int cur = ++cnt;
+        sam[cnt].len = sam[last].len + 1;
+        int p = last;
+        for (; p && !sam[p].nxt[ch]; p = sam[p].fa) sam[p].nxt[ch] = cur;
+        int q = sam[p].nxt[ch];
+        if (q == 0) {
+            sam[cur].fa = 1;
+        } else if (sam[q].len == sam[p].len + 1) {
+            sam[cur].fa = q;
+        } else {
+            int r = ++cnt;
+            sam[r] = sam[q];
+            sam[r].len = sam[p].len + 1;
+            sam[cur].fa = sam[q].fa = r;
+            for (; p && sam[p].nxt[ch] == q; p = sam[p].fa) sam[p].nxt[ch] = r;
+        }
+        e[sam[cur]].fa.push_back(cur);
+        last = cur;
+    }
+    void build() {
+
+    }
+    ll count() {
+        return sum;
+    }
+};
 
 void solve() {
     int n;
     cin >> n;
-    string l, r;
-    cin >> l >> r;
-    int a;
-    cin >> a;
-    vector<vector<int>> v(n, vector<int> (11));
-    vector<vector<Z>> mp(n, vector<Z> (11));
+    vector<int> a(n);
+    for (int i = 0; i < n; i++) cin >> a[i];   
+    
+    Z ans = n;
+    p = 0;
+    ans *= n;
+    SAM<Node> sam(n);
+    for (int i = 0; i < n; i++) sam.inser(a[i]);
 
-    auto dfs = [&](auto &&self, int i, int p, int mi, int mx) -> Z {
-        int cnt = __builtin_popcount(p);
-        if (i == n) {
-            if (cnt == a) return 1;
-            return 0;
-        }
-        Z res = 0;
-        if (!mi && !mx) {
-            if (v[i][cnt]) return mp[i][cnt];
-            res += cnt * self(self, i + 1, (1 << cnt) - 1, 0, 0);
-            if (cnt < 10) res += (10 - cnt) * self(self, i + 1, (1 << cnt << 1) - 1, 0, 0);
-            mp[i][cnt] = res;
-            v[i][cnt] = 1;
-            return res;
-        } else if (mi && mx) {
-            for (int j = l[i] - '0'; j <= r[i] - '0'; j++) {
-                res += self(self, i + 1, p | 1 << j, j == l[i] - '0', j == r[i] - '0');
-            }
-        } else if (mi) {
-            for (int j = l[i] - '0'; j < 10; j++) {
-                res += self(self, i + 1, p | 1 << j, j == l[i] - '0', 0);
-            }
-        } else {
-            for (int j = 0; j <= r[i] - '0'; j++) {
-                res += self(self, i + 1, p | 1 << j, 0, j == r[i] - '0');
-            }
-        }
+    sam.build();
+    ans -= pp;
+    ans /= 2;
 
-        return res;
-    };
-    cout << dfs(dfs, 0, 0, 1, 1);
+    cout << ans << "\n";
 }
 
 int main() {

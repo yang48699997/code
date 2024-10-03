@@ -121,51 +121,31 @@ struct MInt {
 template<>
 ll MInt<0>::Mod = 998244353;
  
-constexpr ll P = 1e9 + 7;
+constexpr ll P = 998244353;
 using Z = MInt<P>;
  
 
 void solve() {
     int n;
     cin >> n;
-    string l, r;
-    cin >> l >> r;
-    int a;
-    cin >> a;
-    vector<vector<int>> v(n, vector<int> (11));
-    vector<vector<Z>> mp(n, vector<Z> (11));
+    vector<int> dep(n + 1);
+    for (int i = 0; i < n; i++) {
+        int p;
+        cin >> p;
+        dep[p]++;
+    }
+    Z ans = 1;
+    vector<Z> fac(n + 1, 1);
+    for (int i = 1; i <= n; i++) {
+        fac[i] *= fac[i - 1] * i;
+    }
 
-    auto dfs = [&](auto &&self, int i, int p, int mi, int mx) -> Z {
-        int cnt = __builtin_popcount(p);
-        if (i == n) {
-            if (cnt == a) return 1;
-            return 0;
-        }
-        Z res = 0;
-        if (!mi && !mx) {
-            if (v[i][cnt]) return mp[i][cnt];
-            res += cnt * self(self, i + 1, (1 << cnt) - 1, 0, 0);
-            if (cnt < 10) res += (10 - cnt) * self(self, i + 1, (1 << cnt << 1) - 1, 0, 0);
-            mp[i][cnt] = res;
-            v[i][cnt] = 1;
-            return res;
-        } else if (mi && mx) {
-            for (int j = l[i] - '0'; j <= r[i] - '0'; j++) {
-                res += self(self, i + 1, p | 1 << j, j == l[i] - '0', j == r[i] - '0');
-            }
-        } else if (mi) {
-            for (int j = l[i] - '0'; j < 10; j++) {
-                res += self(self, i + 1, p | 1 << j, j == l[i] - '0', 0);
-            }
-        } else {
-            for (int j = 0; j <= r[i] - '0'; j++) {
-                res += self(self, i + 1, p | 1 << j, 0, j == r[i] - '0');
-            }
-        }
+    for (int i = 2; i <= n; i++) {
+        if (dep[i] == 0) break;
+        ans *= fac[dep[i] + dep[i - 1] - 1] / fac[dep[i]] / fac[dep[i - 1] - 1];
+    }
 
-        return res;
-    };
-    cout << dfs(dfs, 0, 0, 1, 1);
+    cout << ans << "\n";
 }
 
 int main() {
