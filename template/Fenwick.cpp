@@ -1,5 +1,3 @@
-#include <bits/stdc++.h>
-using namespace std;
 using ll = long long;
 
 template<class T> 
@@ -21,7 +19,7 @@ struct Fenwick {
         }
         return res;
     }
-    T query2(int l, int r) {
+    T query(int l, int r) {
         return query(r) - query(l - 1);
     }
     void update(int x, T val) {

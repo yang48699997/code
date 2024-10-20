@@ -17,6 +17,7 @@ struct Point{
     }
     T operator *(const Point& p) const {
         T res = x * p.x + y * p.y;
+        return res;
     }
     T operator ^(const Point& p) const {
         T res = x * p.y - y * p.x;
@@ -53,14 +54,14 @@ struct Convex{
             }
         }
     }
-    void get_ans() {
+    void work() {
         sort(p.begin(), p.end(), [&](auto a,auto b) {
             double res = (a - point) ^ (b - point);
             if(res > 0) return true;
             else if(res == 0 && a.dis(point) < b.dis(point)) return true;
             return false;
         });
-        int i=0;
+        int i = 0;
         while(i < n) {
             if(m < 2) {
                 ans[m++] = p[i++];
@@ -73,8 +74,8 @@ struct Convex{
     }
     double perimeter() {
         double res = 0;
-        for (int i = 0; i < c.m; i++) {
-            res += sqrt(c.ans[i].dis(c.ans[(i + 1) % c.m]));
+        for (int i = 0; i < m; i++) {
+            res += sqrt(ans[i].dis(ans[(i + 1) % m]));
         }
         return sqrt(res);
     }
@@ -92,3 +93,5 @@ struct Convex{
         return res;
     }
 };
+
+using Con = Convex<Point<double>>;
