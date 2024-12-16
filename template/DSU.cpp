@@ -1,7 +1,7 @@
 struct DSU{
     vector<int> fa, sz;
     DSU(int n) : fa(n), sz(n, 1) {
-        for (int i = 0; i < n; i++) fa[i]=i;
+        for (int i = 0; i < n; i++) fa[i] = i;
     }
     int find(int x) {
         if (fa[x] == x) return x;

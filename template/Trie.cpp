@@ -1,12 +1,8 @@
-#include<bits/stdc++.h>
-
-using namespace std;
-
 struct Trie{
     int cnt;
     Trie *son[26];
     Trie() {
-        cnt=0;
+        cnt = 0;
         for (int i = 0; i < 26; i++) son[i] = nullptr;
     }
     ~Trie() {

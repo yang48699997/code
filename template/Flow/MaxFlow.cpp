@@ -15,6 +15,9 @@ struct MaxFlow {
     MaxFlow(int _n, int _s, int _t) : n(_n), s(_s), t(_t), h(n, -1), d(n), cur(n) {
         e.clear();
     }
+    MaxFlow(int _n) : n(_n), s(0), t(0), h(n, -1), d(n), cur(n) {
+        e.clear();
+    }
     void addEdge(int u, int v, T cap) {
         e.emplace_back(v, h[u], cap);
         h[u] = e.size() - 1;
@@ -64,6 +67,11 @@ struct MaxFlow {
             flow += dfs(s, numeric_limits<T>::max());
         }
         return flow;
+    }
+    T work(int s_, int t_) {
+        s = s_;
+        t = t_;
+        return dinic();
     }
 };
 

@@ -1,0 +1,1 @@
+{"name":"Local: G","url":"e:\\code\\vp\\The 2022 ICPC Asia Xian Regional Contest\\G.cpp","tests":[{"id":1729514000896,"input":"4\na\nt\nb\nab","output":""},{"id":1729514307235,"input":"3\na\naa\naaa","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"e:\\code\\vp\\The 2022 ICPC Asia Xian Regional Contest\\G.cpp","group":"local","local":true}

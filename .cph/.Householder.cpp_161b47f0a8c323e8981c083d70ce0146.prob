@@ -1,0 +1,1 @@
+{"name":"Local: Householder","url":"e:\\code\\others\\c++\\GaussAndLU\\Householder.cpp","tests":[{"id":1733474764246,"input":"3 3\n932.56 274.94 632.40\n561.37 123.45 834.12\n124.88 943.23 321.01","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"e:\\code\\others\\c++\\GaussAndLU\\Householder.cpp","group":"local","local":true}

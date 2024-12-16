@@ -5,7 +5,7 @@ struct Gauss {
     vector<vector<T>> a;
     Gauss () : n(0), a(0) {}
     Gauss (int n_) : n(n_), a(n_, vector<T> (n_ + 1)) {}
-    Gauss (vector<vector<T>> a_) : a(a_), n((int)a.size()) {}
+    Gauss (vector<vector<T>> a_) : a(a_), n((int)a_.size()) {}
 
     void set(int i, int j, T val) {
         a[i][j] = val;
