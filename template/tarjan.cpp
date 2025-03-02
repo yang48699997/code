@@ -1,6 +1,3 @@
-#include <bits/stdc++.h>
-using namespace std;
-
 struct Tarjan {
     int tot, top, cnt;
     int n;
